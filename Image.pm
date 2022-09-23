@@ -6,6 +6,7 @@ use warnings;
 
 use Class::Utils qw(set_params split_params);
 use Error::Pure qw(err);
+use Scalar::Util qw(blessed);
 
 our $VERSION = 0.01;
 
@@ -51,7 +52,7 @@ sub _process {
 	if (! defined $image) {
 		err 'Image object is required.';
 	}
-	if (! $image->isa('Data::Commons::Image')) {
+	if (! blessed($image) || ! $image->isa('Data::Commons::Image')) {
 		err "Image object must be a instance of 'Data::Commons::Image'.";
 	}
 
