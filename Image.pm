@@ -56,6 +56,15 @@ sub _process {
 		err "Image object must be a instance of 'Data::Image'.";
 	}
 
+	my $image_url;
+	if (defined $image->url) {
+		$image_url = $image->url;
+	} elsif (defined $image->url_cb) {
+		$image_url = $image->url_cb->($image);
+	} elsif (defined $self->{'img_src_cb'}) {
+		$image_url = $self->{'img_src_cb'}->($image);
+	} else {
+		err 'No image URL.';
 	}
 
 	$self->{'tags'}->put(
@@ -69,12 +78,6 @@ sub _process {
 			['d', $self->{'title'}],
 			['e', 'legend'],
 		);
-	}
-	my $image_url;
-	if (defined $self->{'img_src_cb'}) {
-		$image_url = $self->{'img_src_cb'}->($image);
-	} else {
-		$image_url = $image->image;
 	}
 	$self->{'tags'}->put(
 		['b', 'img'],
