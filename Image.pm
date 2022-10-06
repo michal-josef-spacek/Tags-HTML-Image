@@ -52,8 +52,10 @@ sub _process {
 	if (! defined $image) {
 		err 'Image object is required.';
 	}
-	if (! blessed($image) || ! $image->isa('Data::Commons::Vote::Image')) {
-		err "Image object must be a instance of 'Data::Commons::Vote::Image'.";
+	if (! blessed($image) || ! $image->isa('Data::Image')) {
+		err "Image object must be a instance of 'Data::Image'.";
+	}
+
 	}
 
 	$self->{'tags'}->put(
