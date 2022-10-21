@@ -16,11 +16,14 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image', 'img_src_cb', 'img_width', 'title'], @params);
+		['css_image', 'fit_minus', 'img_src_cb', 'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
 	# Form CSS style.
 	$self->{'css_image'} = 'image';
+
+	# Length to minus of image fit.
+	$self->{'fit_minus'} = undef;
 
 	# Image src callback across data object.
 	$self->{'img_src_cb'} = undef;
@@ -99,14 +102,27 @@ sub _process {
 sub _process_css {
 	my $self = shift;
 
-	$self->{'css'}->put(
+	my $calc;
+	if (! defined $self->{'img_width'}) {
+		$calc .= 'calc(100vh';
+		if (defined $self->{'fit_minus'}) {
+			$calc .= ' - '.$self->{'fit_minus'};
+		}
+		$calc .= ')';
+	}
 
-		# Grid center on page.
+	$self->{'css'}->put(
 		['s', '.'.$self->{'css_image'}.' img'],
+		['d', 'height', '100%'],
+		['d', 'width', '100%'],
+		['d', 'object-fit', 'contain'],
+		['e'],
+
+		['s', '.'.$self->{'css_image'}],
 		defined $self->{'img_width'} ? (
 			['d', 'width', $self->{'img_width'}],
 		) : (
-			['d', 'width', '100%'],
+			['d', 'height', $calc],
 		),
 		['e'],
 	);
