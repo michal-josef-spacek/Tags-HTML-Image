@@ -71,7 +71,7 @@ sub _process {
 	}
 
 	$self->{'tags'}->put(
-		['b', 'div'],
+		['b', 'figure'],
 		['a', 'class', $self->{'css_image'}],
 	);
 	if (defined $self->{'title'}) {
@@ -93,7 +93,7 @@ sub _process {
 		);
 	}
 	$self->{'tags'}->put(
-		['e', 'div'],
+		['e', 'figure'],
 	);
 
 	return;
