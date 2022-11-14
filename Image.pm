@@ -83,6 +83,7 @@ sub _cleanup {
 	$self->{'_image_comment_tags'} = [];
 	$self->{'_image_comment_css'} = [];
 	$self->{'_image_select_css'} = [];
+	delete $self->{'_image_url'};
 
 	return;
 }
@@ -98,6 +99,17 @@ sub _init {
 	}
 
 	$self->{'_image'} = $image;
+
+	# Process image URL.
+	if (defined $self->{'_image'}->url) {
+		$self->{'_image_url'} = $self->{'_image'}->url;
+	} elsif (defined $self->{'_image'}->url_cb) {
+		$self->{'_image_url'} = $self->{'_image'}->url_cb->($self->{'_image'});
+	} elsif (defined $self->{'img_src_cb'}) {
+		$self->{'_image_url'} = $self->{'img_src_cb'}->($self->{'_image'});
+	} else {
+		err 'No image URL.';
+	}
 
 	if (defined $self->{'img_comment_cb'}) {
 		($self->{'_image_comment_tags'}, $self->{'_image_comment_css'})
@@ -186,19 +198,9 @@ sub _process {
 	}
 
 	# Image.
-	my $image_url;
-	if (defined $self->{'_image'}->url) {
-		$image_url = $self->{'_image'}->url;
-	} elsif (defined $self->{'_image'}->url_cb) {
-		$image_url = $self->{'_image'}->url_cb->($self->{'_image'});
-	} elsif (defined $self->{'img_src_cb'}) {
-		$image_url = $self->{'img_src_cb'}->($self->{'_image'});
-	} else {
-		err 'No image URL.';
-	}
 	$self->{'tags'}->put(
 		['b', 'img'],
-		['a', 'src', $image_url],
+		['a', 'src', $self->{'_image_url'}],
 		['e', 'img'],
 	);
 
