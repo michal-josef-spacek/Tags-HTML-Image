@@ -16,7 +16,7 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image', 'css_init', 'fit_minus', 'img_src_cb',
+		['css_image', 'css_init', 'fit_minus', 'img_comment_cb', 'img_src_cb',
 		'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
@@ -34,6 +34,9 @@ sub new {
 
 	# Length to minus of image fit.
 	$self->{'fit_minus'} = undef;
+
+	# Image comment callback.
+	$self->{'img_comment_cb'} = undef;
 
 	# Image src callback across data object.
 	$self->{'img_src_cb'} = undef;
@@ -58,9 +61,18 @@ sub new {
 	return $self;
 }
 
-# Process 'Tags'.
-sub _process {
-	my ($self, $image) = @_;
+sub _cleanup {
+	my $self = shift;
+
+	delete $self->{'_image'};
+	$self->{'_image_comment_tags'} = [];
+	$self->{'_image_comment_css'} = [];
+
+	return;
+}
+
+sub _init {
+	my ($self, $image, @params) = @_;
 
 	if (! defined $image) {
 		err 'Image object is required.';
@@ -69,13 +81,54 @@ sub _process {
 		err "Image object must be a instance of 'Data::Image'.";
 	}
 
+	$self->{'_image'} = $image;
+
+	if (defined $self->{'img_comment_cb'}) {
+		($self->{'_image_comment_tags'}, $self->{'_image_comment_css'})
+			= $self->{'img_comment_cb'}->($image, @params);
+	} else {
+		if (defined $image->comment) {
+			$self->{'_image_comment_tags'} = [
+				['d', $image->comment],
+			];
+		}
+	}
+	if (@{$self->{'_image_comment_tags'}}) {
+		push @{$self->{'_image_comment_css'}}, (
+			['s', '.'.$self->{'css_image'}.' figcaption'],
+			['d', 'position', 'absolute'],
+			['d', 'bottom', 0],
+			['d', 'background', 'rgb(0, 0, 0)'],
+			['d', 'background', 'rgba(0, 0, 0, 0.5)'],
+			['d', 'color', '#f1f1f1'],
+			['d', 'width', '100%'],
+			['d', 'transition', '.5s ease'],
+			['d', 'opacity', 0],
+			['d', 'font-size', '20px'],
+			['d', 'padding', '20px'],
+			['d', 'text-align', 'center'],
+			['e'],
+
+			['s', 'figure.'.$self->{'css_image'}.':hover figcaption'],
+			['d', 'opacity', 1],
+			['e'],
+		);
+	}
+
+	return;
+}
+
+# Process 'Tags'.
+sub _process {
+	my $self = shift;
+
 	my $image_url;
-	if (defined $image->url) {
-		$image_url = $image->url;
-	} elsif (defined $image->url_cb) {
-		$image_url = $image->url_cb->($image);
+	if (defined $self->{'_image'}->url) {
+		$image_url = $self->{'_image'}->url;
+	} elsif (defined $self->{'_image'}->url_cb) {
+		$image_url = $self->{'_image'}->url_cb->($self->{'_image'});
 	} elsif (defined $self->{'img_src_cb'}) {
-		$image_url = $self->{'img_src_cb'}->($image);
+		$image_url = $self->{'img_src_cb'}->($self->{'_image'});
 	} else {
 		err 'No image URL.';
 	}
@@ -97,6 +150,13 @@ sub _process {
 		['a', 'src', $image_url],
 		['e', 'img'],
 	);
+	if (@{$self->{'_image_comment_tags'}}) {
+		$self->{'tags'}->put(
+			['b', 'figcaption'],
+			@{$self->{'_image_comment_tags'}},
+			['e', 'figcaption'],
+		);
+	}
 	if (defined $self->{'title'}) {
 		$self->{'tags'}->put(
 			['e', 'fieldset'],
@@ -137,6 +197,8 @@ sub _process_css {
 			['d', 'height', $calc],
 		),
 		['e'],
+
+		@{$self->{'_image_comment_css'}},
 	);
 
 	return;
