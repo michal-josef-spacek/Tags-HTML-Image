@@ -117,7 +117,7 @@ sub _init {
 	# Process comment.
 	if (defined $self->{'img_comment_cb'}) {
 		($self->{'_image_comment_tags'}, $self->{'_image_comment_css'})
-			= $self->{'img_comment_cb'}->($image, @params);
+			= $self->{'img_comment_cb'}->($self, $image, @params);
 	} else {
 		if (defined $image->comment) {
 			$self->{'_image_comment_tags'} = [
