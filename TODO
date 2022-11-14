@@ -1,11 +1,13 @@
 TODO
 ====
 1. Add align parameter.
-2. Rewrite from Data::Commons::Vote::Image to something common.
-Data::Image - i need to support Data::Commons::Vote::Image too.
 4.
 
 Applied
 =======
 3. Use figure for image?
+OK [20221114] skim
+
+2. Rewrite from Data::Commons::Vote::Image to something common.
+Data::Image - i need to support Data::Commons::Vote::Image too.
 OK [20221114] skim
