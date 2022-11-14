@@ -58,6 +58,8 @@ sub new {
 	$self->_check_callback('img_select_cb');
 	$self->_check_callback('img_src_cb');
 
+	$self->_cleanup;
+
 	# Object.
 	return $self;
 }
