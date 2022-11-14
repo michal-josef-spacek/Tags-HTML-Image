@@ -50,15 +50,23 @@ sub new {
 	# Process params.
 	set_params($self, @{$object_params_ar});
 
-	# Check callback code.
-	if (defined $self->{'img_src_cb'}
-		&& ref $self->{'img_src_cb'} ne 'CODE') {
-
-		err "Parameter 'img_src_cb' must be a code.";
-	}
+	# Check callback codes.
+	$self->_check_callback('img_src_cb');
 
 	# Object.
 	return $self;
+}
+
+sub _check_callback {
+	my ($self, $callback_key) = @_;
+
+	if (defined $self->{$callback_key}
+		&& ref $self->{$callback_key} ne 'CODE') {
+
+		err "Parameter '$callback_key' must be a code.";
+	}
+
+	return;
 }
 
 sub _cleanup {
