@@ -1,7 +1,9 @@
 TODO
 ====
 1. Add align parameter.
-4.
+4. Fix situation when height of image is bigger than height of screen and i
+have comment. Comment is on bottom of screen.
+5.
 
 Applied
 =======
