@@ -51,6 +51,7 @@ sub new {
 	set_params($self, @{$object_params_ar});
 
 	# Check callback codes.
+	$self->_check_callback('img_comment_cb');
 	$self->_check_callback('img_src_cb');
 
 	# Object.
