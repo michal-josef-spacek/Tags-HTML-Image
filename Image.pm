@@ -82,6 +82,7 @@ sub _cleanup {
 	delete $self->{'_image'};
 	$self->{'_image_comment_tags'} = [];
 	$self->{'_image_comment_css'} = [];
+	$self->{'_image_select_tags'} = [];
 	$self->{'_image_select_css'} = [];
 	delete $self->{'_image_url'};
 
@@ -144,6 +145,20 @@ sub _init {
 	}
 
 	if (defined $self->{'img_select_cb'}) {
+		my $select_hr = $self->{'img_select_cb'}->($self, $image, @params);
+		if (ref $select_hr eq 'HASH' && exists $select_hr->{'value'}) {
+			$select_hr->{'css_background_color'} ||= 'lightgreen';
+			$self->{'_image_select_tags'} = [
+				['b', 'i'],
+				['a', 'class', 'selected'],
+				['a', 'style', 'background-color: '.$select_hr->{'css_background_color'}.';'],
+				exists $select_hr->{'value'} ? (
+					['d', $select_hr->{'value'}],
+				) : (),
+				['e', 'i'],
+			];
+		}
+
 		push @{$self->{'_image_select_css'}}, (
 			['s', '.'.$self->{'css_image'}.' .selected'],
 			['d', 'border', '1px solid black'],
@@ -181,20 +196,10 @@ sub _process {
 	}
 
 	# Select information.
-	if (defined $self->{'img_select_cb'}) {
-		my $select_hr = $self->{'img_select_cb'}->($self, $self->{'_image'});
-		if (ref $select_hr eq 'HASH' && exists $select_hr->{'value'}) {
-			$select_hr->{'css_background_color'} ||= 'lightgreen';
-			$self->{'tags'}->put(
-				['b', 'i'],
-				['a', 'class', 'selected'],
-				['a', 'style', 'background-color: '.$select_hr->{'css_background_color'}.';'],
-				exists $select_hr->{'value'} ? (
-					['d', $select_hr->{'value'}],
-				) : (),
-				['e', 'i'],
-			);
-		}
+	if (@{$self->{'_image_select_tags'}}) {
+		$self->{'tags'}->put(
+			@{$self->{'_image_select_tags'}},
+		);
 	}
 
 	# Image.
