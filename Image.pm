@@ -16,11 +16,21 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image', 'fit_minus', 'img_src_cb', 'img_width', 'title'], @params);
+		['css_image', 'css_init', 'fit_minus', 'img_src_cb',
+		'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
 	# Form CSS style.
 	$self->{'css_image'} = 'image';
+
+	# Init CSS style.
+	$self->{'css_init'} = [
+		['s', '*'],
+		['d', 'box-sizing', 'border-box'],
+		['d', 'margin', 0],
+		['d', 'padding', 0],
+		['e'],
+	];
 
 	# Length to minus of image fit.
 	$self->{'fit_minus'} = undef;
@@ -112,6 +122,8 @@ sub _process_css {
 	}
 
 	$self->{'css'}->put(
+		@{$self->{'css_init'}},
+
 		['s', '.'.$self->{'css_image'}.' img'],
 		['d', 'height', '100%'],
 		['d', 'width', '100%'],
