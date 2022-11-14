@@ -122,6 +122,23 @@ sub _init {
 sub _process {
 	my $self = shift;
 
+	# Begin of figure.
+	$self->{'tags'}->put(
+		['b', 'figure'],
+		['a', 'class', $self->{'css_image'}],
+	);
+
+	# Begin of image title.
+	if (defined $self->{'title'}) {
+		$self->{'tags'}->put(
+			['b', 'fieldset'],
+			['b', 'legend'],
+			['d', $self->{'title'}],
+			['e', 'legend'],
+		);
+	}
+
+	# Image.
 	my $image_url;
 	if (defined $self->{'_image'}->url) {
 		$image_url = $self->{'_image'}->url;
@@ -132,24 +149,13 @@ sub _process {
 	} else {
 		err 'No image URL.';
 	}
-
-	$self->{'tags'}->put(
-		['b', 'figure'],
-		['a', 'class', $self->{'css_image'}],
-	);
-	if (defined $self->{'title'}) {
-		$self->{'tags'}->put(
-			['b', 'fieldset'],
-			['b', 'legend'],
-			['d', $self->{'title'}],
-			['e', 'legend'],
-		);
-	}
 	$self->{'tags'}->put(
 		['b', 'img'],
 		['a', 'src', $image_url],
 		['e', 'img'],
 	);
+
+	# Image comment.
 	if (@{$self->{'_image_comment_tags'}}) {
 		$self->{'tags'}->put(
 			['b', 'figcaption'],
@@ -157,11 +163,15 @@ sub _process {
 			['e', 'figcaption'],
 		);
 	}
+
+	# End of image title.
 	if (defined $self->{'title'}) {
 		$self->{'tags'}->put(
 			['e', 'fieldset'],
 		);
 	}
+
+	# End of figure.
 	$self->{'tags'}->put(
 		['e', 'figure'],
 	);
