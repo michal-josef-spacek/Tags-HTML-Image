@@ -16,8 +16,8 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image', 'css_init', 'fit_minus', 'img_comment_cb', 'img_src_cb',
-		'img_width', 'title'], @params);
+		['css_image', 'css_init', 'fit_minus', 'img_comment_cb',
+		'img_select_cb', 'img_src_cb', 'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
 	# Form CSS style.
@@ -38,6 +38,9 @@ sub new {
 	# Image comment callback.
 	$self->{'img_comment_cb'} = undef;
 
+	# Image select callback.
+	$self->{'img_select_cb'} = undef;
+
 	# Image src callback across data object.
 	$self->{'img_src_cb'} = undef;
 
@@ -52,6 +55,7 @@ sub new {
 
 	# Check callback codes.
 	$self->_check_callback('img_comment_cb');
+	$self->_check_callback('img_select_cb');
 	$self->_check_callback('img_src_cb');
 
 	# Object.
@@ -76,6 +80,7 @@ sub _cleanup {
 	delete $self->{'_image'};
 	$self->{'_image_comment_tags'} = [];
 	$self->{'_image_comment_css'} = [];
+	$self->{'_image_select_css'} = [];
 
 	return;
 }
@@ -124,6 +129,20 @@ sub _init {
 		);
 	}
 
+	if (defined $self->{'img_select_cb'}) {
+		push @{$self->{'_image_select_css'}}, (
+			['s', '.'.$self->{'css_image'}.' .selected'],
+			['d', 'border', '1px solid black'],
+			['d', 'border-radius', '0.5em'],
+			['d', 'color', 'black'],
+			['d', 'padding', '0.5em'],
+			['d', 'position', 'absolute'],
+			['d', 'right', '10px'],
+			['d', 'top', '10px'],
+			['e'],
+		);
+	}
+
 	return;
 }
 
@@ -145,6 +164,23 @@ sub _process {
 			['d', $self->{'title'}],
 			['e', 'legend'],
 		);
+	}
+
+	# Select information.
+	if (defined $self->{'img_select_cb'}) {
+		my $select_hr = $self->{'img_select_cb'}->($self, $self->{'_image'});
+		if (ref $select_hr eq 'HASH' && exists $select_hr->{'value'}) {
+			$select_hr->{'css_background_color'} ||= 'lightgreen';
+			$self->{'tags'}->put(
+				['b', 'i'],
+				['a', 'class', 'selected'],
+				['a', 'style', 'background-color: '.$select_hr->{'css_background_color'}.';'],
+				exists $select_hr->{'value'} ? (
+					['d', $select_hr->{'value'}],
+				) : (),
+				['e', 'i'],
+			);
+		}
 	}
 
 	# Image.
@@ -218,6 +254,8 @@ sub _process_css {
 		['e'],
 
 		@{$self->{'_image_comment_css'}},
+
+		@{$self->{'_image_select_css'}},
 	);
 
 	return;
