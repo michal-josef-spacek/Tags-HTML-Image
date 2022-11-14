@@ -112,6 +112,7 @@ sub _init {
 		err 'No image URL.';
 	}
 
+	# Process comment.
 	if (defined $self->{'img_comment_cb'}) {
 		($self->{'_image_comment_tags'}, $self->{'_image_comment_css'})
 			= $self->{'img_comment_cb'}->($image, @params);
