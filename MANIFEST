@@ -19,5 +19,6 @@ README
 t/Tags-HTML-Image/01-use.t
 t/Tags-HTML-Image/02-version.t
 t/Tags-HTML-Image/03-new.t
+t/Tags-HTML-Image/04-process.t
 xt/Tags-HTML-Image/01-pod_coverage.t
 xt/Tags-HTML-Image/02-pod.t
