@@ -20,7 +20,7 @@ recursive_author_tests('xt');
 requires 'Class::Utils' => 0.02;
 requires 'Error::Pure' => 0.07;
 requires 'Scalar::Util' => 0;
-requires 'Tags::HTML' => 0;
+requires 'Tags::HTML' => 0.06;
 requires 'perl' => '5.8.0';
 resources 'bugtracker' => 'https://github.com/michal-josef-spacek/Tags-HTML-Image/issues';
 resources 'homepage' => 'https://github.com/michal-josef-spacek/Tags-HTML-Image';
