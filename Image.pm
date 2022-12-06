@@ -16,9 +16,13 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image', 'css_init', 'fit_minus', 'img_comment_cb',
-		'img_select_cb', 'img_src_cb', 'img_width', 'title'], @params);
+		['css_comment_height', 'css_image', 'css_init', 'fit_minus',
+		'img_comment_cb', 'img_select_cb', 'img_src_cb', 'img_width', 'title'],
+		@params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
+
+	# Image comment height (in pixels).
+	$self->{'css_comment_height'} = '50';
 
 	# Form CSS style.
 	$self->{'css_image'} = 'image';
@@ -126,6 +130,8 @@ sub _init {
 		}
 	}
 	if (@{$self->{'_image_comment_tags'}}) {
+		my $comment_font_size = $self->{'css_comment_height'} / 2;
+		my $comment_vertical_padding = $self->{'css_comment_height'} / 4;
 		push @{$self->{'_image_comment_css'}}, (
 			['s', '.'.$self->{'css_image'}.' figcaption'],
 			['d', 'position', 'absolute'],
@@ -136,8 +142,8 @@ sub _init {
 			['d', 'width', '100%'],
 			['d', 'transition', '.5s ease'],
 			['d', 'opacity', 0],
-			['d', 'font-size', '20px'],
-			['d', 'padding', '20px'],
+			['d', 'font-size', $comment_font_size.'px'],
+			['d', 'padding', $comment_vertical_padding.'px 5px'],
 			['d', 'text-align', 'center'],
 			['e'],
 
