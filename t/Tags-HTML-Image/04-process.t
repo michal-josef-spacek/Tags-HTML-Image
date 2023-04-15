@@ -30,7 +30,7 @@ is_deeply(
 		['e', 'img'],
 		['e', 'figure'],
 	],
-	'Input HTML code (submit button).',
+	'Input HTML code (image).',
 );
 
 # Test.
