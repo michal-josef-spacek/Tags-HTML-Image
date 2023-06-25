@@ -25,6 +25,7 @@ requires 'perl' => '5.8.0';
 resources 'bugtracker' => 'https://github.com/michal-josef-spacek/Tags-HTML-Image/issues';
 resources 'homepage' => 'https://github.com/michal-josef-spacek/Tags-HTML-Image';
 resources 'repository' => 'git://github.com/michal-josef-spacek/Tags-HTML-Image';
+test_requires 'CSS::Struct::Output::Structure' => 0;
 test_requires 'Data::Image' => 0;
 test_requires 'English' => 0;
 test_requires 'Error::Pure::Utils' => 0.22;
