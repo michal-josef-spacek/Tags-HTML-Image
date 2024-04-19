@@ -1,5 +1,5 @@
 ---
-abstract: 'Tags helper class for image page.'
+abstract: 'Tags helper class for image presentation.'
 author:
   - 'Michal Josef Spacek <skim@cpan.org>'
 build_requires:
