@@ -247,6 +247,7 @@ sub _process_css {
 
 	$self->{'css'}->put(
 		['s', '.'.$self->{'css_image'}.' img'],
+		['d', 'display', 'block'],
 		['d', 'height', '100%'],
 		['d', 'width', '100%'],
 		['d', 'object-fit', 'contain'],

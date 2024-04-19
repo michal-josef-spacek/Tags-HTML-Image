@@ -22,6 +22,7 @@ is_deeply(
 	$ret_ar,
 	[
 		['s', '.image img'],
+		['d', 'display', 'block'],
 		['d', 'height', '100%'],
 		['d', 'width', '100%'],
 		['d', 'object-fit', 'contain'],
