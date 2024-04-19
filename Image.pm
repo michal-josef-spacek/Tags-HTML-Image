@@ -24,7 +24,7 @@ sub new {
 	# Image comment height (in pixels).
 	$self->{'css_comment_height'} = '50';
 
-	# Form CSS style.
+	# Image CSS style.
 	$self->{'css_image'} = 'image';
 
 	# Length to minus of image fit.
@@ -42,7 +42,7 @@ sub new {
 	# Image width in pixels.
 	$self->{'img_width'} = undef;
 
-	# Form title.
+	# Image title.
 	$self->{'title'} = undef;
 
 	# Process params.
