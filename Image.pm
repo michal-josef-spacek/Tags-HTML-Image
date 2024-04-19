@@ -16,7 +16,7 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_comment_height', 'css_image', 'fit_minus',
+		['css_comment_height', 'css_class', 'fit_minus',
 		'img_comment_cb', 'img_select_cb', 'img_src_cb', 'img_width', 'title'],
 		@params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
@@ -24,8 +24,8 @@ sub new {
 	# Image comment height (in pixels).
 	$self->{'css_comment_height'} = '50';
 
-	# Image CSS style.
-	$self->{'css_image'} = 'image';
+	# Image CSS class.
+	$self->{'css_class'} = 'image';
 
 	# Length to minus of image fit.
 	$self->{'fit_minus'} = undef;
@@ -124,7 +124,7 @@ sub _init {
 		my $comment_font_size = $self->{'css_comment_height'} / 2;
 		my $comment_vertical_padding = $self->{'css_comment_height'} / 4;
 		push @{$self->{'_image_comment_css'}}, (
-			['s', '.'.$self->{'css_image'}.' figcaption'],
+			['s', '.'.$self->{'css_class'}.' figcaption'],
 			['d', 'position', 'absolute'],
 			['d', 'bottom', 0],
 			['d', 'background', 'rgb(0, 0, 0)'],
@@ -138,7 +138,7 @@ sub _init {
 			['d', 'text-align', 'center'],
 			['e'],
 
-			['s', 'figure.'.$self->{'css_image'}.':hover figcaption'],
+			['s', 'figure.'.$self->{'css_class'}.':hover figcaption'],
 			['d', 'opacity', 1],
 			['e'],
 		);
@@ -160,7 +160,7 @@ sub _init {
 		}
 
 		push @{$self->{'_image_select_css'}}, (
-			['s', '.'.$self->{'css_image'}.' .selected'],
+			['s', '.'.$self->{'css_class'}.' .selected'],
 			['d', 'border', '1px solid black'],
 			['d', 'border-radius', '0.5em'],
 			['d', 'color', 'black'],
@@ -182,7 +182,7 @@ sub _process {
 	# Begin of figure.
 	$self->{'tags'}->put(
 		['b', 'figure'],
-		['a', 'class', $self->{'css_image'}],
+		['a', 'class', $self->{'css_class'}],
 	);
 
 	# Begin of image title.
@@ -246,14 +246,14 @@ sub _process_css {
 	}
 
 	$self->{'css'}->put(
-		['s', '.'.$self->{'css_image'}.' img'],
+		['s', '.'.$self->{'css_class'}.' img'],
 		['d', 'display', 'block'],
 		['d', 'height', '100%'],
 		['d', 'width', '100%'],
 		['d', 'object-fit', 'contain'],
 		['e'],
 
-		['s', '.'.$self->{'css_image'}],
+		['s', '.'.$self->{'css_class'}],
 		defined $self->{'img_width'} ? (
 			['d', 'width', $self->{'img_width'}],
 		) : (
