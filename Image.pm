@@ -80,7 +80,6 @@ sub _cleanup {
 	$self->{'_image_select_tags'} = [];
 	$self->{'_image_select_css'} = [];
 	delete $self->{'_image_url'};
-	delete $self->{'_params'};
 
 	return;
 }
@@ -96,7 +95,6 @@ sub _init {
 	}
 
 	$self->{'_image'} = $image;
-	$self->{'_params'} = \@params;
 
 	# Process image URL.
 	if (defined $self->{'_image'}->url) {
