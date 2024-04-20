@@ -200,9 +200,15 @@ sub _process {
 		);
 	}
 
+	my @alt;
+	if ($self->{'_image'}->comment) {
+		push @alt, ['a', 'alt', $self->{'_image'}->comment];
+	}
+
 	# Image.
 	$self->{'tags'}->put(
 		['b', 'img'],
+		@alt,
 		['a', 'src', $self->{'_image_url'}],
 		['e', 'img'],
 	);
