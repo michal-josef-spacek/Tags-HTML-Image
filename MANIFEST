@@ -1,4 +1,6 @@
 Changes
+examples/create_image_and_print_html.pl
+examples/plack_app_image.pl
 Image.pm
 inc/Module/Install.pm
 inc/Module/Install/AuthorRequires.pm
