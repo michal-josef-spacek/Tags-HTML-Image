@@ -16,16 +16,16 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_comment_height', 'css_class', 'fit_minus',
+		['css_class', 'css_comment_height', 'fit_minus',
 		'img_comment_cb', 'img_select_cb', 'img_src_cb', 'img_width', 'title'],
 		@params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
-	# Image comment height (in pixels).
-	$self->{'css_comment_height'} = '50';
-
 	# Image CSS class.
 	$self->{'css_class'} = 'image';
+
+	# Image comment height (in pixels).
+	$self->{'css_comment_height'} = '50';
 
 	# Length to minus of image fit.
 	$self->{'fit_minus'} = undef;
