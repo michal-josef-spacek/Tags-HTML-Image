@@ -10,7 +10,7 @@ use Mo::utils 0.12 qw(check_code);
 use Mo::utils::CSS 0.02 qw(check_css_class);
 use Scalar::Util qw(blessed);
 
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 # Constructor.
 sub new {
@@ -649,6 +649,6 @@ BSD 2-Clause License
 
 =head1 VERSION
 
-0.04
+0.05
 
 =cut
