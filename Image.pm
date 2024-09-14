@@ -169,6 +169,10 @@ sub _init {
 sub _process {
 	my $self = shift;
 
+	if (! exists $self->{'_image'}) {
+		return;
+	}
+
 	# Begin of figure.
 	$self->{'tags'}->put(
 		['b', 'figure'],
@@ -231,6 +235,10 @@ sub _process {
 
 sub _process_css {
 	my $self = shift;
+
+	if (! exists $self->{'_image'}) {
+		return;
+	}
 
 	my $calc;
 	if (! defined $self->{'img_width'}) {

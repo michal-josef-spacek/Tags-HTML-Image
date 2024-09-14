@@ -6,7 +6,7 @@ use English;
 use Error::Pure::Utils qw(clean);
 use Tags::HTML::Image;
 use Tags::Output::Structure;
-use Test::More 'tests' => 3;
+use Test::More 'tests' => 4;
 use Test::NoWarnings;
 
 # Test.
@@ -31,6 +31,19 @@ is_deeply(
 		['e', 'figure'],
 	],
 	'Image HTML code (image).',
+);
+
+# Test.
+$tags = Tags::Output::Structure->new;
+$obj = Tags::HTML::Image->new(
+	'tags' => $tags,
+);
+$obj->process;
+$ret_ar = $tags->flush(1);
+is_deeply(
+	$ret_ar,
+	[],
+	'Image HTML code (no init).',
 );
 
 # Test.

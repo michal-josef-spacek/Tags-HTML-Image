@@ -1,4 +1,6 @@
 0.04
+ - Add return to process() and process_css() in case that class is not
+   initialized.
  - Fix test message.
  - Remove nonsense test in process() testing.
 
