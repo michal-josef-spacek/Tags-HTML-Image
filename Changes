@@ -1,6 +1,7 @@
 0.04
  - Add return to process() and process_css() in case that class is not
    initialized.
+ - Add test for init() and improve test messages.
  - Fix test message.
  - Remove nonsense test in process() testing.
 
