@@ -6,7 +6,7 @@ use English;
 use Error::Pure::Utils qw(clean);
 use Tags::HTML::Image;
 use Tags::Output::Structure;
-use Test::More 'tests' => 4;
+use Test::More 'tests' => 3;
 use Test::NoWarnings;
 
 # Test.
@@ -40,16 +40,4 @@ eval {
 };
 is($EVAL_ERROR, "Parameter 'tags' isn't defined.\n",
 	"Parameter 'tags' isn't defined.");
-clean();
-
-# Test.
-$tags = Tags::Output::Structure->new;
-$obj = Tags::HTML::Image->new(
-	'tags' => $tags,
-);
-eval {
-	$obj->init('bad');
-};
-is($EVAL_ERROR, "Image object must be a instance of 'Data::Image'.\n",
-	"Image object must be a instance of 'Data::Image'.");
 clean();
