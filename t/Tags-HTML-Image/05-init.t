@@ -67,7 +67,7 @@ eval {
 	$obj->init('bad');
 };
 is($EVAL_ERROR, "Image object must be a instance of 'Data::Image'.\n",
-	"Image object must be a instance of 'Data::Image'. (scalar)");
+	"Image object must be a instance of 'Data::Image' (scalar).");
 clean();
 
 # Test.
@@ -80,7 +80,7 @@ eval {
 	$obj->init($mock);
 };
 is($EVAL_ERROR, "Image object must be a instance of 'Data::Image'.\n",
-	"Image object must be a instance of 'Data::Image'. (different object)");
+	"Image object must be a instance of 'Data::Image' (different object).");
 clean();
 
 # Test.
