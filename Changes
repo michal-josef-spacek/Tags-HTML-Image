@@ -1,5 +1,6 @@
 0.05
  - Fix test messages.
+ - Update copyright years.
 
 0.04 2024-09-14T11:55:31+02:00
  - Add return to process() and process_css() in case that class is not
